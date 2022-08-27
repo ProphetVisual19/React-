@@ -29,6 +29,7 @@ const NavWrapper = styled.nav`
   top: 0;
   position: sticky;
   box-shadow: black 0 10px 10px -5px;
+  z-index: 100;
 
   .nav__title {
     font-size: 2rem;

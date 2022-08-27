@@ -1,23 +1,48 @@
 import styled from "styled-components";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { removeItem, increase, decrease } from "../cartSlice";
+import { useDispatch } from "react-redux";
+import { Button } from "@mui/material";
 
 const CartItem = ({ id, title, price, img, amount }) => {
+  const dispatch = useDispatch();
+
   return (
     <ItemArticle>
       <img src={img} alt={title} className="item_img" />
       <div className="item__container">
         <h4 className="item__title">{title}</h4>
         <h4 className="item__price">$ {price}</h4>
-        <button>remove</button>
+        <Button
+          variant="contained"
+          color="secondary"
+          size="small"
+          className="removeItem"
+          onClick={() => dispatch(removeItem(id))}
+        >
+          remove
+        </Button>
       </div>
       <div className="amount__container">
-        <button className="amount__button">
+        <button
+          className="amount__button"
+          onClick={() => dispatch(increase({ id }))}
+        >
           <ExpandLessIcon fontSize="large" />
         </button>
 
-        <p className="amount_num">0</p>
-        <button className="amount__button">
+        <p className="amount_num">{amount}</p>
+        <button
+          className="amount__button"
+          onClick={() => {
+            if (amount <= 1) {
+              dispatch(removeItem(id));
+              return;
+            }
+            dispatch(decrease({ id }));
+          }}
+        >
           <ExpandMoreIcon fontSize="large" />
         </button>
       </div>
@@ -49,6 +74,10 @@ const ItemArticle = styled.article`
     padding-bottom: 1rem;
   }
 
+  .removeItem {
+    font-weight: bold;
+  }
+
   .amount__container {
     display: flex;
     flex-direction: column;
@@ -67,6 +96,8 @@ const ItemArticle = styled.article`
     transition: all 0.3s ease 0s;
     border-radius: 50%;
     margin: auto 0;
+    width: 35px;
+    height: 35px;
   }
 
   .amount__button:hover {
