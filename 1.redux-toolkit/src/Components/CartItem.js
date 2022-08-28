@@ -1,13 +1,12 @@
 import styled from "styled-components";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Button } from "@mui/material";
 import { removeItem, increase, decrease } from "../cartSlice";
 import { useDispatch } from "react-redux";
-import { Button } from "@mui/material";
 
 const CartItem = ({ id, title, price, img, amount }) => {
   const dispatch = useDispatch();
-
   return (
     <ItemArticle>
       <img src={img} alt={title} className="item_img" />
@@ -19,7 +18,7 @@ const CartItem = ({ id, title, price, img, amount }) => {
           color="secondary"
           size="small"
           className="removeItem"
-          onClick={() => dispatch(removeItem(id))}
+          onClick={() => dispatch(removeItem({ id }))}
         >
           remove
         </Button>
@@ -36,10 +35,11 @@ const CartItem = ({ id, title, price, img, amount }) => {
         <button
           className="amount__button"
           onClick={() => {
-            if (amount <= 1) {
-              dispatch(removeItem(id));
+            if (amount === 1) {
+              dispatch(removeItem({ id }));
               return;
             }
+
             dispatch(decrease({ id }));
           }}
         >

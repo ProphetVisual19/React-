@@ -1,12 +1,11 @@
-import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import CartItem from "./Components/CartItem";
-import { clearCart } from "./cartSlice";
 import { Button } from "@mui/material";
+import { useSelector, useDispatch } from "react-redux";
+import { clearCart } from "./cartSlice";
 
 const CartContainers = () => {
   const { cartItems, amount, total } = useSelector((store) => store.cart);
-  console.log(total);
   const dispatch = useDispatch();
 
   if (amount < 1) {
@@ -22,7 +21,6 @@ const CartContainers = () => {
       {cartItems.map((item) => {
         return <CartItem key={item.id} {...item} />;
       })}
-
       <div className="total__container">
         <h2>TOTAL</h2>
         <h2>{total.toFixed(2)}</h2>
@@ -31,8 +29,8 @@ const CartContainers = () => {
         <Button
           variant="outlined"
           color="error"
-          onClick={() => dispatch(clearCart())}
           className="clearBtn"
+          onClick={() => dispatch(clearCart())}
         >
           Clear Cart
         </Button>
